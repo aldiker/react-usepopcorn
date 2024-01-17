@@ -23,12 +23,12 @@ const tempWatchedData = [
     },
 ]
 
-export default function Main({ movies, setMovies }) {
+export default function Main({ children }) {
     const [watched, setWatched] = useState(tempWatchedData)
 
     return (
         <main className='main'>
-            <ListBox movies={movies} />
+            {children}
             <WatchedBox watched={watched} />
         </main>
     )
