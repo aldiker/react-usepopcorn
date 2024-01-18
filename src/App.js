@@ -4,6 +4,7 @@ import Main from './components/Main'
 import NumResult from './components/NumResult'
 import MovieList from './components/MovieList'
 import Box from './components/Box'
+
 import WatchedSummary from './components/WatchedSummary'
 import WatchedMovieList from './components/WatchedMovieList'
 
