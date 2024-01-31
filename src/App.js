@@ -7,6 +7,7 @@ import Box from './components/Box'
 
 import WatchedSummary from './components/WatchedSummary'
 import WatchedMovieList from './components/WatchedMovieList'
+import Loader from './components/Loader'
 
 const tempMovieData = [
     {
@@ -55,12 +56,25 @@ const KEY = '70af8624'
 export default function App() {
     const [movies, setMovies] = useState([])
     const [watched, setWatched] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(function () {
-        fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-            .then((res) => res.json())
-            .then((data) => setMovies(data.Search))
-    }, [])
+    useEffect(
+        function () {
+            async function fetchMovies() {
+                setIsLoading(true)
+                const res = await fetch(
+                    `http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`
+                )
+                const data = await res.json()
+                setMovies(data.Search)
+                setIsLoading(false)
+            }
+
+            fetchMovies()
+        },
+
+        []
+    )
 
     return (
         <>
@@ -69,7 +83,7 @@ export default function App() {
             </NavBar>
             <Main>
                 <Box>
-                    <MovieList movies={movies} />
+                    {isLoading ? <Loader /> : <MovieList movies={movies} />}
                 </Box>
                 <Box>
                     <WatchedSummary watched={watched} />
