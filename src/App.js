@@ -9,6 +9,7 @@ import WatchedSummary from './components/WatchedSummary'
 import WatchedMovieList from './components/WatchedMovieList'
 import Loader from './components/Loader'
 import ErrorMessage from './components/ErrorMessage'
+import Search from './components/Search'
 
 const tempMovieData = [
     {
@@ -59,36 +60,59 @@ export default function App() {
     const [watched, setWatched] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
+    const [query, setQuery] = useState('')
 
-    // const query = 'interstellar'
-    const query = 'khkhkhkl'
+    const tempQuery = 'interstellar'
 
-    useEffect(function () {
-        async function fetchMovies() {
-            try {
-                setIsLoading(true)
-                const res = await fetch(
-                    `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-                )
-                const data = await res.json()
+    // useEffect(function () {
+    //     console.log('After initial render')
+    // }, [])
 
-                console.log(data)
+    // useEffect(function () {
+    //     console.log('After every render')
+    // })
 
-                if (data.Response === 'False')
-                    throw new Error('Movie not found')
-            } catch (err) {
-                console.log(err.message)
-                setError(err.message)
-            } finally {
-                setIsLoading(false)
+    // useEffect(
+    //     function () {
+    //         console.log('D')
+    //     },
+    //     [query]
+    // )
+
+    // console.log('During render')
+
+    useEffect(
+        function () {
+            async function fetchMovies() {
+                try {
+                    setIsLoading(true)
+                    setError('')
+
+                    const res = await fetch(
+                        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+                    )
+                    const data = await res.json()
+
+                    if (data.Response === 'False')
+                        throw new Error('Movie not found')
+
+                    setMovies(data.Search)
+                } catch (err) {
+                    console.log(err.message)
+                    setError(err.message)
+                } finally {
+                    setIsLoading(false)
+                }
             }
-        }
-        fetchMovies()
-    }, [])
+            fetchMovies()
+        },
+        [query]
+    )
 
     return (
         <>
             <NavBar>
+                <Search query={query} setQuery={setQuery} />
                 <NumResult movies={movies} />
             </NavBar>
             <Main>
@@ -107,3 +131,15 @@ export default function App() {
         </>
     )
 }
+
+// const title = prop.movie.Title
+// const [userRating, setUserRating] = useState('')
+
+// useEffect(
+//     function () {
+//         if (!title) return
+//         document.title = `${title} ${userRating && `(Rated ${userRating} ⭐)`}`
+//         return () => (document.title = 'usePopcorn')
+//     },
+//     [title, userRating]
+// )
