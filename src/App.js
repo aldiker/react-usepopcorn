@@ -60,16 +60,22 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
 
+    // const query = 'interstellar'
+    const query = 'khkhkhkl'
+
     useEffect(function () {
         async function fetchMovies() {
             try {
                 setIsLoading(true)
                 const res = await fetch(
-                    `http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`
+                    `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
                 )
-
                 const data = await res.json()
-                setMovies(data.Search)
+
+                console.log(data)
+
+                if (data.Response === 'False')
+                    throw new Error('Movie not found')
             } catch (err) {
                 console.log(err.message)
                 setError(err.message)
