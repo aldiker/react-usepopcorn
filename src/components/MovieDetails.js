@@ -12,6 +12,7 @@ export default function MovieDetails({
     const [movie, setMovie] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
+    const [userRating, setUserRating] = useState('')
 
     const {
         Title: title,
@@ -34,6 +35,7 @@ export default function MovieDetails({
             poster,
             runtime: Number(runtime.split(' ').at(0)),
             imdbRating: Number(imdbRating),
+            userRating,
         }
         onAddWatchedMovie(newMovie)
         onCloseMovie()
@@ -88,10 +90,16 @@ export default function MovieDetails({
                     </header>
                     <section>
                         <div className='rating'>
-                            <StarRating maxRating={10} size={24} />
-                            <button className='btn-add' onClick={handleAdd}>
-                                + Add movie to list
-                            </button>
+                            <StarRating
+                                maxRating={10}
+                                size={24}
+                                onSetRating={setUserRating}
+                            />
+                            {userRating && (
+                                <button className='btn-add' onClick={handleAdd}>
+                                    + Add movie to list
+                                </button>
+                            )}
                         </div>
                         <p>
                             <em>{plot}</em>
