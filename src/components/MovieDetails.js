@@ -3,7 +3,12 @@ import StarRating from './StarRating'
 import Loader from './Loader'
 import ErrorMessage from './ErrorMessage'
 
-export default function MovieDetails({ selectedId, onCloseMovie, KEY }) {
+export default function MovieDetails({
+    selectedId,
+    onCloseMovie,
+    KEY,
+    onAddWatchedMovie,
+}) {
     const [movie, setMovie] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
@@ -21,6 +26,19 @@ export default function MovieDetails({ selectedId, onCloseMovie, KEY }) {
         Genre: genre,
     } = movie
 
+    function handleAdd() {
+        const newMovie = {
+            imdbID: selectedId,
+            title,
+            year,
+            poster,
+            runtime: Number(runtime.split(' ').at(0)),
+            imdbRating: Number(imdbRating),
+        }
+        onAddWatchedMovie(newMovie)
+        onCloseMovie()
+    }
+
     useEffect(
         function () {
             async function getMovieDetais() {
@@ -32,7 +50,6 @@ export default function MovieDetails({ selectedId, onCloseMovie, KEY }) {
                         `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
                     )
                     const data = await res.json()
-                    console.log(data)
                     setMovie(data)
                 } catch (err) {
                     console.log(err.message)
@@ -72,6 +89,9 @@ export default function MovieDetails({ selectedId, onCloseMovie, KEY }) {
                     <section>
                         <div className='rating'>
                             <StarRating maxRating={10} size={24} />
+                            <button className='btn-add' onClick={handleAdd}>
+                                + Add movie to list
+                            </button>
                         </div>
                         <p>
                             <em>{plot}</em>

@@ -64,23 +64,6 @@ export default function App() {
     const [query, setQuery] = useState('')
     const [selectedId, setSelectedId] = useState(null)
 
-    // useEffect(function () {
-    //     console.log('After initial render')
-    // }, [])
-
-    // useEffect(function () {
-    //     console.log('After every render')
-    // })
-
-    // useEffect(
-    //     function () {
-    //         console.log('D')
-    //     },
-    //     [query]
-    // )
-
-    // console.log('During render')
-
     function handleSelectMovie(id) {
         console.log(id)
         setSelectedId((selectedId) => (id === selectedId ? null : id))
@@ -88,6 +71,10 @@ export default function App() {
 
     function handleCloseMovie() {
         setSelectedId(null)
+    }
+
+    function handleAddWatchedMovie(movie) {
+        setWatched((watched) => [...watched, movie])
     }
 
     useEffect(
@@ -150,6 +137,7 @@ export default function App() {
                             selectedId={selectedId}
                             onCloseMovie={handleCloseMovie}
                             KEY={KEY}
+                            onAddWatchedMovie={handleAddWatchedMovie}
                         />
                     ) : (
                         <>
