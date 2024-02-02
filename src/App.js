@@ -10,6 +10,7 @@ import WatchedMovieList from './components/WatchedMovieList'
 import Loader from './components/Loader'
 import ErrorMessage from './components/ErrorMessage'
 import Search from './components/Search'
+import MovieDetails from './components/MovieDetails'
 
 const tempMovieData = [
     {
@@ -61,7 +62,7 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
     const [query, setQuery] = useState('')
-    const [selectedId, setSelectedId] = useState('tt0088763')
+    const [selectedId, setSelectedId] = useState(null)
 
     // useEffect(function () {
     //     console.log('After initial render')
@@ -144,8 +145,18 @@ export default function App() {
                     {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
                 </Box>
                 <Box>
-                    <WatchedSummary watched={watched} />
-                    <WatchedMovieList watched={watched} />
+                    {selectedId ? (
+                        <MovieDetails
+                            selectedId={selectedId}
+                            onCloseMovie={handleCloseMovie}
+                            KEY={KEY}
+                        />
+                    ) : (
+                        <>
+                            <WatchedSummary watched={watched} />
+                            <WatchedMovieList watched={watched} />
+                        </>
+                    )}
                 </Box>
             </Main>
         </>
