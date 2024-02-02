@@ -61,8 +61,7 @@ export default function App() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
     const [query, setQuery] = useState('')
-
-    const tempQuery = 'interstellar'
+    const [selectedId, setSelectedId] = useState('tt0088763')
 
     // useEffect(function () {
     //     console.log('After initial render')
@@ -80,6 +79,15 @@ export default function App() {
     // )
 
     // console.log('During render')
+
+    function handleSelectMovie(id) {
+        console.log(id)
+        setSelectedId((selectedId) => (id === selectedId ? null : id))
+    }
+
+    function handleCloseMovie() {
+        setSelectedId(null)
+    }
 
     useEffect(
         function () {
@@ -125,7 +133,12 @@ export default function App() {
             <Main>
                 <Box>
                     {isLoading && <Loader />}
-                    {!isLoading && !error && <MovieList movies={movies} />}
+                    {!isLoading && !error && (
+                        <MovieList
+                            movies={movies}
+                            onSelectMovie={handleSelectMovie}
+                        />
+                    )}
                     {error && <ErrorMessage message={error} />}
 
                     {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
