@@ -8,7 +8,7 @@ export default function MovieDetails({
     onCloseMovie,
     KEY,
     onAddWatchedMovie,
-    tempUserRating,
+    watchedUserRating,
 }) {
     //console.log(`tempUserRating = ${tempUserRating}`)
 
@@ -97,7 +97,7 @@ export default function MovieDetails({
                                 maxRating={10}
                                 size={24}
                                 onSetRating={setUserRating}
-                                defaultRating={tempUserRating}
+                                defaultRating={watchedUserRating}
                             />
                             {userRating && (
                                 <button className='btn-add' onClick={handleAdd}>

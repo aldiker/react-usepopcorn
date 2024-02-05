@@ -63,19 +63,14 @@ export default function App() {
     const [error, setError] = useState('')
     const [query, setQuery] = useState('')
     const [selectedId, setSelectedId] = useState(null)
-    const [tempUserRating, setTempUserRating] = useState(0)
+    const [watchedUserRating, setWatchedUserRating] = useState(0)
 
     function handleSelectMovie(id) {
-        const watchedMovie = watched.filter((movie) => movie.imdbID === id)
-        console.log(watchedMovie)
-        //console.log(watchedMovie.length)
+        const tempUserRating = watched.find(
+            (movie) => movie.imdbID === id
+        )?.userRating
 
-        if (watchedMovie.length > 0)
-            setTempUserRating(watchedMovie.at(0).userRating)
-        else setTempUserRating(0)
-
-        //console.log(`tempUserRating = ${tempUserRating}`)
-        //console.log(`id = ${id}`)
+        setWatchedUserRating(tempUserRating)
         setSelectedId((selectedId) => (id === selectedId ? null : id))
     }
 
@@ -87,7 +82,6 @@ export default function App() {
         const watchedMovie = watched.filter(
             (watchedMovie) => watchedMovie.imdbID !== movie.imdbID
         )
-        console.log(watchedMovie)
 
         setWatched([...watchedMovie, movie])
     }
@@ -153,7 +147,7 @@ export default function App() {
                             onCloseMovie={handleCloseMovie}
                             KEY={KEY}
                             onAddWatchedMovie={handleAddWatchedMovie}
-                            tempUserRating={tempUserRating}
+                            watchedUserRating={watchedUserRating}
                         />
                     ) : (
                         <>
