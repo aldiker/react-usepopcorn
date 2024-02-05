@@ -8,7 +8,10 @@ export default function MovieDetails({
     onCloseMovie,
     KEY,
     onAddWatchedMovie,
+    tempUserRating,
 }) {
+    //console.log(`tempUserRating = ${tempUserRating}`)
+
     const [movie, setMovie] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
@@ -94,6 +97,7 @@ export default function MovieDetails({
                                 maxRating={10}
                                 size={24}
                                 onSetRating={setUserRating}
+                                defaultRating={tempUserRating}
                             />
                             {userRating && (
                                 <button className='btn-add' onClick={handleAdd}>
