@@ -73,6 +73,7 @@ export default function MovieDetails({
 
             return function () {
                 document.title = 'usePopcorn'
+                console.log(`Clean up effect for movie ${title}`)
             }
         },
         [title]
