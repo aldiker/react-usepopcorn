@@ -126,18 +126,18 @@ export default function App() {
         [query]
     )
 
-    useEffect(
-        function () {
-            if (!selectedId) document.title = 'usePopcorn'
-            else {
-                document.title = `Movie | ${
-                    movies.filter((movie) => movie.imdbID === selectedId).at(0)
-                        .Title
-                }`
-            }
-        },
-        [selectedId]
-    )
+    // useEffect(
+    //     function () {
+    //         if (!selectedId) document.title = 'usePopcorn'
+    //         else {
+    //             document.title = `Movie | ${
+    //                 movies.filter((movie) => movie.imdbID === selectedId).at(0)
+    //                     .Title
+    //             }`
+    //         }
+    //     },
+    //     [selectedId]
+    // )
 
     return (
         <>
