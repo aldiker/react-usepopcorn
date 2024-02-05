@@ -86,6 +86,11 @@ export default function App() {
         setWatched([...watchedMovie, movie])
     }
 
+    function handleDeleteWatchedMovie(id) {
+        const newWatched = watched.filter((movie) => movie.imdbID !== id)
+        setWatched(newWatched)
+    }
+
     useEffect(
         function () {
             async function fetchMovies() {
@@ -152,7 +157,10 @@ export default function App() {
                     ) : (
                         <>
                             <WatchedSummary watched={watched} />
-                            <WatchedMovieList watched={watched} />
+                            <WatchedMovieList
+                                watched={watched}
+                                onDeleteMovie={handleDeleteWatchedMovie}
+                            />
                         </>
                     )}
                 </Box>
@@ -160,15 +168,3 @@ export default function App() {
         </>
     )
 }
-
-// const title = prop.movie.Title
-// const [userRating, setUserRating] = useState('')
-
-// useEffect(
-//     function () {
-//         if (!title) return
-//         document.title = `${title} ${userRating && `(Rated ${userRating} ⭐)`}`
-//         return () => (document.title = 'usePopcorn')
-//     },
-//     [title, userRating]
-// )

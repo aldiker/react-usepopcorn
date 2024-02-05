@@ -10,8 +10,6 @@ export default function MovieDetails({
     onAddWatchedMovie,
     watchedUserRating,
 }) {
-    //console.log(`tempUserRating = ${tempUserRating}`)
-
     const [movie, setMovie] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
