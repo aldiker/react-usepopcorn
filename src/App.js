@@ -115,7 +115,7 @@ export default function App() {
 
                     setMovies(data.Search)
                 } catch (err) {
-                    console.error(err.message)
+                    // console.error(err.message)
                     if (err.name !== 'AbortError') {
                         setError(err.message)
                     }
