@@ -42,6 +42,19 @@ export default function MovieDetails({
         onCloseMovie()
     }
 
+    useEffect(function () {
+        function handleEvent(e) {
+            if (e.code === 'Escape') {
+                onCloseMovie()
+            }
+        }
+        document.addEventListener('keydown', handleEvent)
+
+        return function () {
+            document.removeEventListener('keydown', handleEvent)
+        }
+    }, [])
+
     useEffect(
         function () {
             async function getMovieDetais() {
