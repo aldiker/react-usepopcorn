@@ -16,12 +16,22 @@ const KEY = '70af8624'
 
 export default function App() {
     const [movies, setMovies] = useState([])
-    const [watched, setWatched] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
     const [query, setQuery] = useState('')
     const [selectedId, setSelectedId] = useState(null)
     const [watchedUserRating, setWatchedUserRating] = useState(0)
+
+    // const storedWatched = JSON.parse(localStorage.getItem('watched'))
+    const [watched, setWatched] = useState(() =>
+        JSON.parse(localStorage.getItem('watched'))
+    )
+
+    // Используем useState для установки начального состояния watched
+    // const [watched, setWatched] = useState(() => {
+    //     const storedWatched = JSON.parse(localStorage.getItem('watched'))
+    //     return storedWatched || [] // Если в localStorage нет значения, возвращаем пустой массив
+    // })
 
     function handleSelectMovie(id) {
         const tempUserRating = watched.find(
@@ -37,17 +47,22 @@ export default function App() {
     }
 
     function handleAddWatchedMovie(movie) {
-        const watchedMovie = watched.filter(
+        const tempWatched = watched.filter(
             (watchedMovie) => watchedMovie.imdbID !== movie.imdbID
         )
 
-        setWatched([...watchedMovie, movie])
+        setWatched([...tempWatched, movie])
+        // localStorage.setItem('watched', JSON.stringify([...tempWatched, movie]))
     }
 
     function handleDeleteWatchedMovie(id) {
         const newWatched = watched.filter((movie) => movie.imdbID !== id)
         setWatched(newWatched)
     }
+
+    useEffect(() => {
+        localStorage.setItem('watched', JSON.stringify(watched))
+    }, [watched])
 
     useEffect(
         function () {

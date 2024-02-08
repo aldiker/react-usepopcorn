@@ -28,9 +28,6 @@ export default function MovieDetails({
         Genre: genre,
     } = movie
 
-    // if (imdbRating > 8) [isTop, setIsTop] = useState(true)
-    // if (imdbRating > 8) return <p>Hello</p>
-
     function handleAdd() {
         const newMovie = {
             imdbID: selectedId,
