@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import StarRating from './StarRating'
 import Loader from './Loader'
 import ErrorMessage from './ErrorMessage'
@@ -14,6 +14,14 @@ export default function MovieDetails({
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
     const [userRating, setUserRating] = useState('')
+
+    const countRef = useRef(0)
+
+    useEffect(() => {
+        if (userRating) countRef.current++
+    }, [userRating])
+
+    console.log(countRef.current)
 
     const {
         Title: title,
@@ -37,6 +45,7 @@ export default function MovieDetails({
             runtime: Number(runtime.split(' ').at(0)),
             imdbRating: Number(imdbRating),
             userRating,
+            countRatingDecisions: countRef.current,
         }
         onAddWatchedMovie(newMovie)
         onCloseMovie()
