@@ -12,6 +12,7 @@ import ErrorMessage from './components/ErrorMessage'
 import Search from './components/Search'
 import MovieDetails from './components/MovieDetails'
 import { useMovies } from './hooks/useMovies'
+import { useLocalStorageState } from './hooks/useLocalStorageState'
 
 const KEY = '70af8624'
 
@@ -20,18 +21,8 @@ export default function App() {
     const [selectedId, setSelectedId] = useState(null)
     const [watchedUserRating, setWatchedUserRating] = useState(0)
 
-    // const storedWatched = JSON.parse(localStorage.getItem('watched'))
-    const [watched, setWatched] = useState(() =>
-        JSON.parse(localStorage.getItem('watched'))
-    )
-
     const { movies, isLoading, error } = useMovies(query, KEY, handleCloseMovie)
-
-    // Используем useState для установки начального состояния watched
-    // const [watched, setWatched] = useState(() => {
-    //     const storedWatched = JSON.parse(localStorage.getItem('watched'))
-    //     return storedWatched || [] // Если в localStorage нет значения, возвращаем пустой массив
-    // })
+    const [watched, setWatched] = useLocalStorageState([], 'watched')
 
     function handleSelectMovie(id) {
         const tempUserRating = watched.find(
@@ -59,10 +50,6 @@ export default function App() {
         const newWatched = watched.filter((movie) => movie.imdbID !== id)
         setWatched(newWatched)
     }
-
-    useEffect(() => {
-        localStorage.setItem('watched', JSON.stringify(watched))
-    }, [watched])
 
     return (
         <>
