@@ -11,13 +11,11 @@ import Loader from './components/Loader'
 import ErrorMessage from './components/ErrorMessage'
 import Search from './components/Search'
 import MovieDetails from './components/MovieDetails'
+import { useMovies } from './hooks/useMovies'
 
 const KEY = '70af8624'
 
 export default function App() {
-    const [movies, setMovies] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState('')
     const [query, setQuery] = useState('')
     const [selectedId, setSelectedId] = useState(null)
     const [watchedUserRating, setWatchedUserRating] = useState(0)
@@ -26,6 +24,8 @@ export default function App() {
     const [watched, setWatched] = useState(() =>
         JSON.parse(localStorage.getItem('watched'))
     )
+
+    const { movies, isLoading, error } = useMovies(query, KEY, handleCloseMovie)
 
     // Используем useState для установки начального состояния watched
     // const [watched, setWatched] = useState(() => {
@@ -63,54 +63,6 @@ export default function App() {
     useEffect(() => {
         localStorage.setItem('watched', JSON.stringify(watched))
     }, [watched])
-
-    useEffect(
-        function () {
-            const controller = new AbortController()
-
-            async function fetchMovies() {
-                try {
-                    setIsLoading(true)
-                    setError('')
-
-                    const res = await fetch(
-                        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
-                        { signal: controller.signal }
-                    )
-                    if (!res.ok)
-                        throw new Error(
-                            'Something went wrong with fetching mavies'
-                        )
-
-                    const data = await res.json()
-                    if (data.Response === 'False')
-                        throw new Error('Movie not found')
-
-                    setMovies(data.Search)
-                } catch (err) {
-                    // console.error(err.message)
-                    if (err.name !== 'AbortError') {
-                        setError(err.message)
-                    }
-                } finally {
-                    setIsLoading(false)
-                }
-            }
-
-            if (query.length < 3) {
-                setError('')
-                setMovies([])
-                return
-            }
-
-            fetchMovies()
-
-            return function () {
-                controller.abort()
-            }
-        },
-        [query]
-    )
 
     return (
         <>
